@@ -1,0 +1,21 @@
+{
+  "name": "LSD",
+  "version": "0.0.0",
+  "description": "LINE Sticker Downloader",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/amigcamel/lsd",
+  "keywords": [
+  ],
+  "author": "amigcamel",
+  "license": "",
+  "devDependencies": {
+    "electron": "^8.0.3"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "got": "^10.6.0"
+  }
+}
