@@ -4,18 +4,22 @@
   "description": "LINE Sticker Downloader",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron main.js",
+    "build_mac": "electron-packager . LSD --platform=darwin --arch=x64 --electron-version=8.0.3 --asar --ignore=node_modules/electron-* ",
+    "build_win32": "electron-packager . LSD --platform=win32 --arch=x64 --electron-version=8.0.3 --asar --ignore=node_modules/electron-* ",
+    "build_linux": "electron-packager . LSD --platform=linux --arch=x64 --electron-version=8.0.3 --asar --ignore=node_modules/electron-* "
   },
   "repository": "https://github.com/amigcamel/lsd",
-  "keywords": [
-  ],
+  "keywords": [],
   "author": "amigcamel",
   "license": "",
   "devDependencies": {
-    "electron": "^8.0.3"
+    "electron": "^8.0.3",
+    "electron-packager": "^14.2.1"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
+    "electron-installer-windows": "^3.0.0",
     "got": "^10.6.0"
   }
 }

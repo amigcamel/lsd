@@ -3,12 +3,13 @@ const fs = require('fs')
 const cheerio = require('cheerio')
 const got = require('got')
 
-const map = new Map()
+const headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:73.0) Gecko/20100101 Firefox/73.0'}
+
 
 async function req (keyword) {
   const url = `https://store.line.me/api/search/sticker?query=${encodeURI(keyword)}&offset=0&limit=36`
   try {
-    const response = await got(url, {cache: map})
+    const response = await got(url, {headers: headers})
     return JSON.parse(response.body)
   } catch (error) {
     console.log(error)
@@ -19,14 +20,26 @@ async function extractStickerPage (id) {
   const url = `https://store.line.me/stickershop/product/${id}`
   const urls = [];
   try {
-    const response = await got(url, {cache: map})
+    const response = await got(url, {headers: headers})
     const $ = cheerio.load(response.body)
     $('.FnPreview').each(function(i, elem) {
       urls.push(/url\((.+\.png)/g.exec($(this).attr('style'))[1])
     })
-    console.log('--------------------------')
-    console.log(response.isFromCache)
     return urls
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function downloadImage (id, dir) {
+  try {
+    const url = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${id}/android/sticker.png`
+    const response = await got(url, {headers: headers, encoding: 'binary'})
+    const filepath = `${dir}${id}.png`
+    fs.writeFile(filepath, response.body, 'binary', (err) => {
+      if (err) throw err
+      console.log(`Image saved: ${filepath}`)
+    })
   } catch (error) {
     console.log(error)
   }
@@ -34,3 +47,4 @@ async function extractStickerPage (id) {
 
 exports.req = req
 exports.extractStickerPage = extractStickerPage
+exports.downloadImage = downloadImage

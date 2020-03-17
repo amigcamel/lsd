@@ -1,6 +1,7 @@
-.preview {
-  cursor: pointer;
-}
+.preview, 
 .sub {
   cursor: pointer;
+}
+#sub-wrapper {
+  display: none;
 }

@@ -8,12 +8,20 @@
   </head>
   <body>
     <h1>Line Sticker Downloader</h1>
-    <input type="text" id="keyword" value="懶的鳥你" />
-    <button id="download-btn">Download</button>
+    <div>
+      Keyword: <input type="text" id="keyword" value="懶的鳥你" />
+      <button id="search-btn">Search</button>
+    </div>
+    <div>
+      Folder: <input type="text" id="download-folder" value="" />
+      <button id="choose-directory">Select</button>
+    </div>
     <div id="content"></div>
-    <button id="ow">Open Window</button>
-    <hr />
-    <div id="sub"></div>
+    <div id="sub-wrapper">
+      <hr />
+      <button id="sub-download-all">Download All</button>
+      <div id="sub-content"></div>
+    </div>
     <!-- You can also require other files to run in this process -->
     <script src="./renderer.js"></script>
   </body>
