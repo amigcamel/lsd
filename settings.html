@@ -17,7 +17,6 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./index.css">
-  <script src="./init.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -145,7 +144,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+            <a href="./index.html" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -157,7 +156,7 @@
                 Collections
               </p>
             </a>
-            <a href="./settings.html" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -175,6 +174,24 @@
   <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
+      <div class="row">
+        <div class="form-inline ml-3">
+          <input type="text" id="download-folder" class="form-control" value="" />
+          <div class="input-group-append">
+            <button id="choose-directory" class="btn">
+              <i class="fas fa-folder"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="stickers" class="container-fluid"></div>
+      <div id="sub-wrapper">
+        <hr />
+        <button id="sub-download-all" class="btn btn-default btn-lg">Download All</button>
+        <div id="sub-stickers"></div>
+      </div>
+
     </section>
     <!-- /.content -->
   </div>

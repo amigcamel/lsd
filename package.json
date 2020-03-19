@@ -18,8 +18,11 @@
     "electron-packager": "^14.2.1"
   },
   "dependencies": {
+    "admin-lte": "^3.0.2",
     "cheerio": "^1.0.0-rc.3",
     "electron-installer-windows": "^3.0.0",
-    "got": "^10.6.0"
+    "got": "^10.6.0",
+    "jquery": "^3.4.1",
+    "underscore": "^1.9.2"
   }
 }

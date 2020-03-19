@@ -2,6 +2,7 @@ const fs = require('fs')
 
 const cheerio = require('cheerio')
 const got = require('got')
+const _ = require('underscore')
 
 const headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:73.0) Gecko/20100101 Firefox/73.0'}
 
@@ -45,6 +46,24 @@ async function downloadImage (id, dir) {
   }
 }
 
+async function getRandomPopular (sampleSize = 7) {
+  const url = `https://store.line.me/stickershop/showcase/top?page=${_.random(1, 50)}` 
+  const items = []
+  try {
+    const response = await got(url, {headers: headers})
+    const $ = cheerio.load(response.body)
+    $('div.LyMain > section > div > ul > li').each(function() {
+      const href = $(this).find('a').attr('href')
+      const src = $(this).find('img').attr('src')
+      items.push(src)
+    })
+    return _.sample(items, sampleSize)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 exports.req = req
 exports.extractStickerPage = extractStickerPage
 exports.downloadImage = downloadImage
+exports.getRandomPopular = getRandomPopular
