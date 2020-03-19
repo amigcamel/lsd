@@ -17,7 +17,6 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="./index.css">
-  <script src="./init.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -144,20 +143,20 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
+          <li id="sidebar" class="nav-item has-treeview menu-open">
+            <a href="#" onclick="loadHTML('./dashboard.html')" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
-            <a href="./collections.html" class="nav-link">
+            <a href="#" onclick="loadHTML('./collections.html')" class="nav-link">
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Collections
               </p>
             </a>
-            <a href="./settings.html" class="nav-link">
+            <a href="#" onclick="loadHTML('./settings.html')" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -188,7 +187,7 @@
 </div>
 <!-- ./wrapper -->
 
-<script src="./renderer.js"></script>
+<script src="./init.js"></script>
 <!-- jQuery -->
 <script>window.$ = window.jQuery = require('jquery');</script>
 <!-- jQuery UI 1.11.4 -->
@@ -203,6 +202,7 @@
 <script src="node_modules/admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="node_modules/admin-lte/dist/js/adminlte.js"></script>
+<script src="./renderer.js"></script>
 
 </body>
 </html>
