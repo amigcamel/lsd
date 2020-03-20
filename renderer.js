@@ -8,7 +8,14 @@ const htmlCache = new Map()
 
 global.downloadFolder = os.homedir() + '/LSD'
 
-// document.getElementById('download-folder').value = global.downloadFolder
+function setDownloadFolder(path) {
+  document.getElementById('download-folder').value = global.downloadFolder
+}
+
+function chooseFolder() {
+  global.downloadFolder = dialog.showOpenDialogSync({properties: ['openDirectory']}) + '/LSD'
+  setDownloadFolder()
+}
 
 function renderPopularStickers() {
   let ele = document.getElementById('popular-stickers')
@@ -68,20 +75,17 @@ function showStickersWrap() {
     showStickers(event.target.dataset.id)
 }
 
-function chooseFolder() {
-  global.downloadFolder = dialog.showOpenDialogSync({properties: ['openDirectory']})
-  document.getElementById('download-folder').value = global.downloadFolder
-}
-
-
 function loadHTML (file, cache = true) {
+  // execute necessary scripts
+  if (file.search('settings.html') != -1) {
+    setTimeout(() => {setDownloadFolder()}, 100)  // XXX: bad practice
+  }
   // save cache
   if (cache) {
     const ele = document.querySelector('li#sidebar a.active')
     const currFile = /\('(.+?)'\)/g.exec(ele.getAttribute('onclick'))[1]
     htmlCache[currFile] = document.querySelector('.content').innerHTML
     console.log(`Save cache: ${currFile}`)
-    console.log(htmlCache[currFile])
   }
   // set "active" class
   document.querySelectorAll('li#sidebar > a').forEach((ele) => {
@@ -94,7 +98,6 @@ function loadHTML (file, cache = true) {
   // load HTML
   if (file in htmlCache) {
     console.log(`Retrieve cache: ${file}`)
-    console.log(htmlCache[file])
     document.querySelector('.content').innerHTML = htmlCache[file]
   } else {
     fetch(file)
