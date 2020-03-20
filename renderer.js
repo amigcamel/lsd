@@ -8,6 +8,14 @@ const htmlCache = new Map()
 
 global.downloadFolder = os.homedir() + '/LSD'
 
+function displayAllStickers() {
+  let ele = document.querySelector('.content')
+  ele.innerHTML = ''
+  window.funcs.recFindByExt(global.downloadFolder, 'png').forEach((src, idx) => {
+    ele.innerHTML += `<img src="${src}" alt="${ele}" width="10%"/>`
+  })
+}
+
 function setDownloadFolder(path) {
   document.getElementById('download-folder').value = global.downloadFolder
 }
@@ -79,6 +87,8 @@ function loadHTML (file, cache = true) {
   // execute necessary scripts
   if (file.search('settings.html') != -1) {
     setTimeout(() => {setDownloadFolder()}, 100)  // XXX: bad practice
+  } else if (file.search('collections.html') != -1) {
+    setTimeout(() => {displayAllStickers()}, 100)  // XXX: bad practice
   }
   // save cache
   if (cache) {
