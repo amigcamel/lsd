@@ -1,6 +1,7 @@
 const fs = require('fs')
 const os = require('os')
 
+const {ipcRenderer} = require('electron')
 const {dialog} = require('electron').remote
 
 const spinner = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-4x"></i></div>'
@@ -14,6 +15,14 @@ function displayAllStickers() {
   window.funcs.recFindByExt(global.downloadFolder, 'png').forEach((src, idx) => {
     ele.innerHTML += `<img src="${src}" alt="${ele}" width="10%"/>`
   })
+  setTimeout(() => {
+    document.querySelectorAll('img').forEach(function(event) {
+      event.ondragstart = (event) => {
+        event.preventDefault()
+        ipcRenderer.send('ondragstart', event.target.getAttribute('src'))  // native file drag, ref: https://www.electronjs.org/docs/tutorial/native-file-drag-drop
+      } 
+    })
+  }, 100)  // XXX: bad practice
 }
 
 function setDownloadFolder(path) {
