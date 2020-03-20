@@ -4,13 +4,11 @@ const os = require('os')
 const {dialog} = require('electron').remote
 
 const spinner = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-4x"></i></div>'
+const htmlCache = new Map()
 
 global.downloadFolder = os.homedir() + '/LSD'
 
-
-
-
-document.getElementById('download-folder').value = global.downloadFolder
+// document.getElementById('download-folder').value = global.downloadFolder
 
 function renderPopularStickers() {
   let ele = document.getElementById('popular-stickers')
@@ -20,13 +18,13 @@ function renderPopularStickers() {
     ele.innerHTML = ''
     for (const idx in data) {
       const id = /product\/(\d+)/g.exec(data[idx])[1]
-      ele.innerHTML += `<img data-id="${id}" class="preview" src="${data[idx]}" alt="${idx}" />`
+      ele.innerHTML += `<a href="#" onclick="showStickersWrap()"><img data-id="${id}" src="${data[idx]}" alt="${idx}" /></a>`
     }
   })
 }
 
-document.getElementById('search-btn').addEventListener('click', (e) => {
-  document.getElementById('sub-wrapper').innerHTML = ''
+function searchStickers() {
+  document.getElementById('sub-wrapper').style.display = 'none'
   keyword = document.getElementById('keyword').value
   const p = window.funcs.req(keyword)
   let ele = document.getElementById('stickers')
@@ -34,12 +32,12 @@ document.getElementById('search-btn').addEventListener('click', (e) => {
   p.then((data) => {
       ele.innerHTML = ''
       for (const item of data.items) {
-        ele.innerHTML += `<img class="preview" src="${item.listIcon.src}" alt="${item.title}" data-id="${item.id}" />`
+        ele.innerHTML += `<a href="#" onclick="showStickersWrap()"><img src="${item.listIcon.src}" alt="${item.title}" data-id="${item.id}" /></a>`
       }
     })
-})
+}
 
-function showPrev(id) {
+function showStickers(id) {
   global.stickerId = id
   const p = window.funcs.extractStickerPage(id)
   let ele = document.getElementById('sub-stickers')
@@ -54,30 +52,64 @@ function showPrev(id) {
   })
 }
 
-document.addEventListener('click', function(event) {
-  if (event.target.className == 'preview') {
-    document.getElementById('sub-wrapper').style.display = 'block'
-    showPrev(event.target.dataset.id)
+function downloadStickers() {
+  const dir = `${global.downloadFolder}/${global.stickerId}/`
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, {recursive: true})
   }
-  if (event.target.id == 'reload-popular-stickers') {
-    renderPopularStickers()
-  }
-  if (event.target.id == 'sub-download-all') {
-    const dir = `${global.downloadFolder}/${global.stickerId}/`
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, {recursive: true})
-    }
-    global.urls.forEach((url) => {
-      window.funcs.downloadImage(/\/(\d+)\//g.exec(url)[1], dir)
-    })
-    alert(`Stickers will be saved to: ${dir}`)
-  }
-  if (event.target.id == 'choose-directory') {
-    global.downloadFolder = dialog.showOpenDialogSync({properties: ['openDirectory']})
-    document.getElementById('download-folder').value = global.downloadFolder
-  }
-})
+  global.urls.forEach((url) => {
+    window.funcs.downloadImage(/\/(\d+)\//g.exec(url)[1], dir)
+  })
+  alert(`Stickers will be saved to: ${dir}`)
+}
 
-document.addEventListener("DOMContentLoaded", function(event) {
+function showStickersWrap() {
+    document.getElementById('sub-wrapper').style.display = 'block'
+    showStickers(event.target.dataset.id)
+}
+
+function chooseFolder() {
+  global.downloadFolder = dialog.showOpenDialogSync({properties: ['openDirectory']})
+  document.getElementById('download-folder').value = global.downloadFolder
+}
+
+
+function loadHTML (file, cache = true) {
+  // save cache
+  if (cache) {
+    const ele = document.querySelector('li#sidebar a.active')
+    const currFile = /\('(.+?)'\)/g.exec(ele.getAttribute('onclick'))[1]
+    htmlCache[currFile] = document.querySelector('.content').innerHTML
+    console.log(`Save cache: ${currFile}`)
+    console.log(htmlCache[currFile])
+  }
+  // set "active" class
+  document.querySelectorAll('li#sidebar > a').forEach((ele) => {
+    if (ele.getAttribute('onclick').search(file) != -1) {
+      ele.classList.add('active')
+    } else {
+      ele.classList.remove('active')
+    }
+  })
+  // load HTML
+  if (file in htmlCache) {
+    console.log(`Retrieve cache: ${file}`)
+    console.log(htmlCache[file])
+    document.querySelector('.content').innerHTML = htmlCache[file]
+  } else {
+    fetch(file)
+      .then((data) => {
+        return data.text()
+      })
+      .then((html) => {
+        document.querySelector('.content').innerHTML = html
+      })
+  }
+}
+
+loadHTML('./dashboard.html', false)
+
+// render popular stickers on startup
+setTimeout(function() {
   renderPopularStickers()
-});
+}, 200)
