@@ -3,16 +3,17 @@ const os = require('os')
 
 const {ipcRenderer} = require('electron')
 const {dialog} = require('electron').remote
+const Store = require('electron-store');
 
 const spinner = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-4x"></i></div>'
 const htmlCache = new Map()
-
-global.downloadFolder = os.homedir() + '/LSD'
+const store = new Store()
+const defaultDownloadDir = os.homedir() + '/LSD'
 
 function displayAllStickers() {
   let ele = document.querySelector('.content')
   ele.innerHTML = ''
-  window.funcs.recFindByExt(global.downloadFolder, 'png').forEach((src, idx) => {
+  window.funcs.recFindByExt(store.get('downloadDir', defaultDownloadDir), 'png').forEach((src, idx) => {
     ele.innerHTML += `<img src="${src}" alt="${ele}" width="10%"/>`
   })
   setTimeout(() => {
@@ -26,11 +27,11 @@ function displayAllStickers() {
 }
 
 function setDownloadFolder(path) {
-  document.getElementById('download-folder').value = global.downloadFolder
+  document.getElementById('download-folder').value = store.get('downloadDir', defaultDownloadDir) 
 }
 
 function chooseFolder() {
-  global.downloadFolder = dialog.showOpenDialogSync({properties: ['openDirectory']}) + '/LSD'
+  store.set('downloadDir', dialog.showOpenDialogSync({properties: ['openDirectory']}) + '/LSD')
   setDownloadFolder()
 }
 
@@ -76,15 +77,28 @@ function showStickers(id) {
   })
 }
 
+function showDownloadProgress() {
+  let monitor = setInterval(() => {
+    const ele = document.getElementById('download-progress')
+    ele.style.width = `${Math.round(global._downloaded / global.urls.length * 100)}%`
+    console.log(ele.style.width)
+    if (global._downloaded == global.urls.length) {
+      clearInterval(monitor)
+    }
+  }, 100)
+}
+
 function downloadStickers() {
-  const dir = `${global.downloadFolder}/${global.stickerId}/`
+  const dir = `${store.get('downloadDir', defaultDownloadDir)}/${global.stickerId}/`
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, {recursive: true})
   }
+  global._downloaded = 0
+  document.getElementById('download-progress').style.width = '0%'
   global.urls.forEach((url) => {
     window.funcs.downloadImage(/\/(\d+)\//g.exec(url)[1], dir)
   })
-  alert(`Stickers will be saved to: ${dir}`)
+  showDownloadProgress()
 }
 
 function showStickersWrap() {

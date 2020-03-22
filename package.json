@@ -21,6 +21,7 @@
     "admin-lte": "^3.0.2",
     "cheerio": "^1.0.0-rc.3",
     "electron-installer-windows": "^3.0.0",
+    "electron-store": "^5.1.1",
     "got": "^10.6.0",
     "jquery": "^3.4.1",
     "underscore": "^1.9.2"

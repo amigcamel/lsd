@@ -6,7 +6,7 @@ const got = require('got')
 const _ = require('underscore')
 
 const headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:73.0) Gecko/20100101 Firefox/73.0'}
-
+global._downloaded = 0
 
 async function req (keyword) {
   const url = `https://store.line.me/api/search/sticker?query=${encodeURI(keyword)}&offset=0&limit=36`
@@ -39,8 +39,13 @@ async function downloadImage (id, dir) {
     const response = await got(url, {headers: headers, encoding: 'binary'})
     const filepath = `${dir}${id}.png`
     fs.writeFile(filepath, response.body, 'binary', (err) => {
-      if (err) throw err
-      console.log(`Image saved: ${filepath}`)
+      if (err) {
+        throw err
+      } else {
+        global._downloaded += 1
+        console.log(`Image saved: ${filepath}`)
+        console.log(global._downloaded)
+      }
     })
   } catch (error) {
     console.log(error)

@@ -1,10 +1,23 @@
-<div class="row">
-  <div class="form-inline ml-3">
-    <input type="text" id="download-folder" class="form-control" value="" readonly="true" />
-    <div class="input-group-append">
-      <button class="btn" onclick="chooseFolder()">
-        <i class="fas fa-folder"></i>
-      </button>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <h4>General Settings</h4>
+  </div>
+  <div class="card-body">
+		<div class="form-group">
+			<label for="">Download Folder</label>
+      <div class="input-group">
+  			<input type="text" id="download-folder" class="form-control" value="" readonly="true" />
+  			<button class="btn btn-default" onclick="chooseFolder()">Choose</button>
+      </div>
+			<small class="form-text text-muted">The folder where you save stickers.</small>
+		</div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-header">
+    <h4>Danger Zone</h4>
+  </div>
+  <div class="card-body">
+    <button class="btn btn-danger">Delete Stickers</button>
   </div>
 </div>
