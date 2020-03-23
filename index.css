@@ -9,3 +9,7 @@
 #footer-progress {
   padding: 0 !important
 }
+
+body {
+  user-select: none;
+}
