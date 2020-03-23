@@ -1,9 +1,8 @@
 <div class="card">
   <div class="card-header">
-    <h2 style="display:inline">
+    <h4 style="display:inline">
       Popular Stickers 
-    </h2>
-    <div style="display:inline"></div>
+    </h4>
     <button class="btn" onclick="renderPopularStickers()">
       <i class="fas fa-sync-alt"></i>
     </button>
@@ -12,23 +11,34 @@
     <div id="popular-stickers" class="card-text"></div>
   </div>
 </div>
-<hr />
-<div class="row">
-  <div class="form-inline ml-3">
-    <div class="input-group input-group-sm">
-      <input id="keyword" class="form-control" type="text" placeholder="Keyword" aria-label="Keyword" value="懶的鳥你">
-      <div class="input-group-append">
+
+<div class="card">
+  <div class="card-header">
+    <h4>Search</h4>
+  </div>
+  <div class="card-body">
+		<div class="form-group">
+      <div class="input-group">
+        <input id="keyword" class="form-control" type="text" placeholder="ex: rilakkuma" aria-label="Keyword">
         <button class="btn" id="search-btn" onclick="searchStickers()">
           <i class="fas fa-search"></i>
         </button>
       </div>
-    </div>
+		</div>
+    <div id="stickers" class="container-fluid"></div>
   </div>
 </div>
 
-<div id="stickers" class="container-fluid"></div>
-<div id="sub-wrapper">
-  <hr />
-  <button class="btn btn-default btn-lg" onclick="downloadStickers()">Download All</button>
-  <div id="sub-stickers"></div>
+<div id="sub-wrapper" class="card" style="display:none">
+  <div class="card-header">
+    <h4 class="float-left">Results</h4>
+    <button class="float-right btn btn-default btn-sm" onclick="downloadStickers()">
+      Download
+      <i class="ml-2 fas fa-download"></i>
+    </button>
+  </div>
+  <div class="card-body">
+    <div id="sub-stickers"></div>
+  </div>
 </div>
+
