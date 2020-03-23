@@ -3,12 +3,18 @@
     <h4 style="display:inline">
       Popular Stickers 
     </h4>
-    <button class="btn" onclick="renderPopularStickers()">
-      <i class="fas fa-sync-alt"></i>
-    </button>
   </div>
   <div class="card-body">
-    <div id="popular-stickers" class="card-text"></div>
+    <div class="row">
+      <div class="col-md-11">
+        <div id="popular-stickers" class="card-text"></div>
+      </div>
+      <div class="col-md-1">
+        <button class="btn" style="margin-top: 30%" onclick="renderPopularStickers()">
+          <i class="fas fa-angle-right fa-5x"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 

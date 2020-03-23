@@ -95,10 +95,11 @@ function showDownloadProgress() {
       clearInterval(monitor)
       setTimeout(() => {
         $(document).Toasts('create', {
+          title: `<img src="https://stickershop.line-scdn.net/stickershop/v1/product/${global.stickerId}/LINEStorePC/thumbnail_shop.png;compress=true" style="width:50%">`,
           body: 'Download completed',
           class: 'bg-success',
           autohide: true,
-          delay: 1000
+          delay: 2000
         })
       }, 600)
       setTimeout(() => {
