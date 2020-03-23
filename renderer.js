@@ -12,9 +12,7 @@ const defaultDownloadDir = os.homedir() + '/LSD'
 
 function deleteStickers() {
   const path = store.get('downloadDir', defaultDownloadDir)
-  if (confirm(`This will delete everything under ${path}, are your sure?`)) {
-    window.funcs.deleteFolder(path)
-  }
+	window.funcs.deleteFolder(path)
 }
 
 function displayAllStickers() {
@@ -96,6 +94,14 @@ function showDownloadProgress() {
     if (global._downloaded == global.urls.length) {
       clearInterval(monitor)
       setTimeout(() => {
+        $(document).Toasts('create', {
+          body: 'Download completed',
+          class: 'bg-success',
+          autohide: true,
+          delay: 1000
+        })
+      }, 600)
+      setTimeout(() => {
         footer.style.display = 'none'
       }, 2000)
     }
@@ -129,13 +135,13 @@ function loadHTML (file, cache = true) {
   }
   // save cache
   if (cache) {
-    const ele = document.querySelector('li#sidebar a.active')
+    const ele = document.querySelector('div.sidebar ul li a.active')
     const currFile = /\('(.+?)'\)/g.exec(ele.getAttribute('onclick'))[1]
     htmlCache[currFile] = document.querySelector('.content').innerHTML
     console.log(`Save cache: ${currFile}`)
   }
   // set "active" class
-  document.querySelectorAll('li#sidebar > a').forEach((ele) => {
+  document.querySelectorAll('div.sidebar ul li a').forEach((ele) => {
     if (ele.getAttribute('onclick').search(file) != -1) {
       ele.classList.add('active')
     } else {

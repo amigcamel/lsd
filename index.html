@@ -34,40 +34,57 @@
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <!-- Sidebar -->
     <div class="sidebar">
-
-      <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li id="sidebar" class="nav-item has-treeview menu-open">
-            <a href="#" onclick="loadHTML('./dashboard.html')" class="nav-link active">
+          <li class="nav-item">
+            <a href="#" onclick="loadHTML('./dashboard.html')" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
               </p>
             </a>
+          </li>
+          <li class="nav-item">
             <a href="#" onclick="loadHTML('./collections.html')" class="nav-link">
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Collections
               </p>
             </a>
+          <li class="nav-item">
             <a href="#" onclick="loadHTML('./settings.html')" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
               </p>
             </a>
+          <li class="nav-item">
+            <a href="#" onclick="" class="nav-link">
+              <i class="nav-icon fas fa-bell"></i>
+              <p>
+                Logs
+              </p>
+            </a>
+          </li>
+          <li class="nav-header">Stickers</li>
+          <li class="nav-item">
+            <a href="#" onclick="console.log('Frequently used')" class="nav-link">
+              <i class="nav-icon fas fa-history"></i>
+              <p>
+                Frequently Used
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" onclick="console.log('Favorite')" class="nav-link">
+              <i class="nav-icon far fa-heart"></i>
+              <p>Favorite</p>
+            </a>
           </li>
         </ul>
       </nav>
-      <!-- /.sidebar-menu -->
     </div>
-    <!-- /.sidebar -->
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
