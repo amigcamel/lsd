@@ -5,3 +5,7 @@
 #sub-wrapper {
   display: none;
 }
+
+#footer-progress {
+  padding: 0 !important
+}

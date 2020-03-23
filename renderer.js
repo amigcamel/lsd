@@ -78,12 +78,19 @@ function showStickers(id) {
 }
 
 function showDownloadProgress() {
+  const footer = document.getElementById('footer-progress')
   let monitor = setInterval(() => {
+    footer.style.display = 'block'
     const ele = document.getElementById('download-progress')
-    ele.style.width = `${Math.round(global._downloaded / global.urls.length * 100)}%`
+    let percentage = `${Math.round(global._downloaded / global.urls.length * 100)}%`
+    ele.style.width = percentage
+    ele.innerText = percentage
     console.log(ele.style.width)
     if (global._downloaded == global.urls.length) {
       clearInterval(monitor)
+      setTimeout(() => {
+        footer.style.display = 'none'
+      }, 2000)
     }
   }, 100)
 }
