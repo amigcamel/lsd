@@ -33,15 +33,23 @@ async function extractStickerPage (id) {
   }
 }
 
-async function downloadImage (id, dir) {
+async function downloadImage (id, dir, cover = false) {
+  let url
+  if (cover) {
+    url = `https://stickershop.line-scdn.net/stickershop/v1/product/${id}/LINEStorePC/thumbnail_shop.png`
+  } else {
+    url = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${id}/android/sticker.png`
+  }
   try {
-    const url = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${id}/android/sticker.png`
     const response = await got(url, {headers: headers, encoding: 'binary'})
     const filepath = `${dir}${id}.png`
     fs.writeFile(filepath, response.body, 'binary', (err) => {
       if (err) {
         throw err
       } else {
+        if (cover) {
+          return 1  // XXX: need decouple
+        }
         global._downloaded += 1
         console.log(`Image saved: ${filepath}`)
         console.log(global._downloaded)

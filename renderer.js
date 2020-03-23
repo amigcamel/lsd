@@ -10,9 +10,26 @@ const htmlCache = new Map()
 const store = new Store()
 const defaultDownloadDir = os.homedir() + '/LSD'
 
+function getCoverDir() {
+  const dir = store.get('downloadDir', defaultDownloadDir) + '/.covers/'
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, {recursive: true})
+  }
+  return dir
+}
+
 function deleteStickers() {
   const path = store.get('downloadDir', defaultDownloadDir)
 	window.funcs.deleteFolder(path)
+}
+
+function displayCovers() {
+  let ele = document.getElementById('collections-content')
+  ele.innerHTML = ''
+  window.funcs.recFindByExt(getCoverDir(), 'png').forEach((src, idx) => {
+    // ele.innerHTML += `<img src="${src}" alt="${ele}" width="10%"/>`
+    ele.innerHTML += `<div class="col-sm-2"><a href="#"><img src="${src}" class="img-fluid mb-2""/></a></div>`
+  })
 }
 
 function displayAllStickers() {
@@ -62,7 +79,7 @@ function searchStickers() {
   p.then((data) => {
       ele.innerHTML = ''
       for (const item of data.items) {
-        ele.innerHTML += `<a href="#" onclick="showStickersWrap()"><img src="${item.listIcon.src}" alt="${item.title}" data-id="${item.id}" /></a>`
+        ele.innerHTML += `<div class="col-sm-2"><a href="#" onclick="showStickersWrap()"><img src="${item.listIcon.src}" alt="${item.title}" data-id="${item.id}" /></a></div>`
       }
     })
 }
@@ -114,6 +131,7 @@ function downloadStickers() {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, {recursive: true})
   }
+  window.funcs.downloadImage(global.stickerId, getCoverDir(), true)
   global._downloaded = 0
   document.getElementById('download-progress').style.width = '0%'
   global.urls.forEach((url) => {
@@ -132,7 +150,10 @@ function loadHTML (file, cache = true) {
   if (file.search('settings.html') != -1) {
     setTimeout(() => {setDownloadFolder()}, 100)  // XXX: bad practice
   } else if (file.search('collections.html') != -1) {
-    setTimeout(() => {displayAllStickers()}, 100)  // XXX: bad practice
+    setTimeout(() => {
+      // displayAllStickers()
+      displayCovers()
+    }, 100)  // XXX: bad practice
   }
   // save cache
   if (cache) {
