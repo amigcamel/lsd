@@ -10,6 +10,13 @@ const htmlCache = new Map()
 const store = new Store()
 const defaultDownloadDir = os.homedir() + '/LSD'
 
+function deleteStickers() {
+  const path = store.get('downloadDir', defaultDownloadDir)
+  if (confirm(`This will delete everything under ${path}, are your sure?`)) {
+    window.funcs.deleteFolder(path)
+  }
+}
+
 function displayAllStickers() {
   let ele = document.querySelector('.content')
   ele.innerHTML = ''

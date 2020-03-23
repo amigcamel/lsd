@@ -91,8 +91,18 @@ function recFindByExt(base, ext, files, result) {
   return result
 }
 
+function deleteFolder(path) {
+  fs.rmdir(path, {recursive: true}, (err) => {
+    if (err) {
+      throw err
+    }
+    console.log(`Deleted: ${path}`)
+  })
+}
+
 exports.req = req
 exports.extractStickerPage = extractStickerPage
 exports.downloadImage = downloadImage
 exports.getRandomPopular = getRandomPopular
 exports.recFindByExt = recFindByExt
+exports.deleteFolder = deleteFolder
