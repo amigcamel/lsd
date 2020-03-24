@@ -1,14 +1,37 @@
 const fs = require('fs')
 const os = require('os')
 
-const {ipcRenderer} = require('electron')
-const {dialog} = require('electron').remote
+const {ipcRenderer, remote} = require('electron')
+const {dialog, Menu, MenuItem, getCurrentWebContents} = require('electron').remote
 const Store = require('electron-store');
 
 const spinner = '<div class="text-center"><i class="fas fa-spinner fa-spin fa-4x"></i></div>'
 const htmlCache = new Map()
 const store = new Store()
 const defaultDownloadDir = os.homedir() + '/LSD'
+
+// context menu, ref: http://electron.atom.io/docs/api/menu/#render-process
+let webContents = getCurrentWebContents ()
+const contextMenu = new Menu ()
+const menuItem = new MenuItem({
+  label: 'Delete',
+  click: () => {
+    window.funcs.deleteFile(`${getCoverDir()}${global._rightClickedStickerId}.png`)
+    window.funcs.deleteFolder(store.get('downloadDir', defaultDownloadDir) + `/${global._rightClickedStickerId}`, {recursive: true})
+    ele.parentElement.remove()
+  } 
+})
+
+contextMenu.append(menuItem)
+webContents.on('context-menu', (event, params) => {
+  const ele = document.elementFromPoint(params.x, params.y)
+  const a = ele.closest('a')
+  console.log(ele)
+  if (ele.classList.contains('_cc')) {
+    global._rightClickedStickerId = a.dataset.id
+    contextMenu.popup()
+  }
+})
 
 function getCoverDir() {
   const dir = store.get('downloadDir', defaultDownloadDir) + '/.covers/'
@@ -27,7 +50,8 @@ function displayCovers() {
   let ele = document.getElementById('collections-content')
   ele.innerHTML = ''
   window.funcs.recFindByExt(getCoverDir(), 'png').forEach((src, idx) => {
-    ele.innerHTML += `<div class="col-sm-2"><a href="#" onclick="displayStickers('${src}')"><img src="${src}" class="img-fluid mb-2""/></a></div>`
+    const id = /(\d+)\.png/g.exec(src)[1]
+    ele.innerHTML += `<div class="col-sm-2"><a href="#" data-id="${id}" onclick="displayStickers('${src}')"><img src="${src}" class="img-fluid mb-2 _cc"/></a></div>`
   })
 }
 

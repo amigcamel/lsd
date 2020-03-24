@@ -48,7 +48,7 @@ async function downloadImage (id, dir, cover = false) {
         throw err
       } else {
         if (cover) {
-          return 1  // XXX: need decouple
+          return 1
         }
         global._downloaded += 1
         console.log(`Image saved: ${filepath}`)
@@ -108,9 +108,19 @@ function deleteFolder(path) {
   })
 }
 
+function deleteFile(path) {
+  fs.unlink(path, (err) => {
+    if (err) {
+      throw err
+    }
+    console.log(`Deleted: ${path}`)
+  })
+}
+
 exports.req = req
 exports.extractStickerPage = extractStickerPage
 exports.downloadImage = downloadImage
 exports.getRandomPopular = getRandomPopular
 exports.recFindByExt = recFindByExt
+exports.deleteFile = deleteFile
 exports.deleteFolder = deleteFolder
