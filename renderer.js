@@ -44,6 +44,13 @@ function getCoverDir() {
 function deleteAllStickers() {
   const path = store.get('downloadDir', defaultDownloadDir)
 	window.funcs.deleteFolder(path)
+  $(document).Toasts('create', {
+    title: 'Notification',
+    body: 'All stickers have been removed',
+    class: 'bg-success',
+    autohide: true,
+    delay: 2000
+  })
 }
 
 function displayCovers() {
