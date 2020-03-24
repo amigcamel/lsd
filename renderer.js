@@ -27,19 +27,19 @@ function displayCovers() {
   let ele = document.getElementById('collections-content')
   ele.innerHTML = ''
   window.funcs.recFindByExt(getCoverDir(), 'png').forEach((src, idx) => {
-    // ele.innerHTML += `<img src="${src}" alt="${ele}" width="10%"/>`
-    ele.innerHTML += `<div class="col-sm-2"><a href="#"><img src="${src}" class="img-fluid mb-2""/></a></div>`
+    ele.innerHTML += `<div class="col-sm-2"><a href="#" onclick="displayStickers('${src}')"><img src="${src}" class="img-fluid mb-2""/></a></div>`
   })
 }
 
-function displayAllStickers() {
-  let ele = document.querySelector('.content')
+function displayStickers(src) {
+  const id = /(\d+)\.png/g.exec(src)[1]
+  let ele = document.getElementById('sub-collections-content')
   ele.innerHTML = ''
-  window.funcs.recFindByExt(store.get('downloadDir', defaultDownloadDir), 'png').forEach((src, idx) => {
-    ele.innerHTML += `<img src="${src}" alt="${ele}" width="10%"/>`
+  window.funcs.recFindByExt(store.get('downloadDir', defaultDownloadDir) + '/' + id, 'png').forEach((src, idx) => {
+    ele.innerHTML += `<div class="col-sm-2"><img src="${src}" width="70%"/></div>`
   })
   setTimeout(() => {
-    document.querySelectorAll('img').forEach(function(event) {
+    document.querySelectorAll('#sub-collections-content img').forEach(function(event) {
       event.ondragstart = (event) => {
         event.preventDefault()
         ipcRenderer.send('ondragstart', event.target.getAttribute('src'))  // native file drag, ref: https://www.electronjs.org/docs/tutorial/native-file-drag-drop
@@ -151,7 +151,6 @@ function loadHTML (file, cache = true) {
     setTimeout(() => {setDownloadFolder()}, 100)  // XXX: bad practice
   } else if (file.search('collections.html') != -1) {
     setTimeout(() => {
-      // displayAllStickers()
       displayCovers()
     }, 100)  // XXX: bad practice
   }
