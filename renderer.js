@@ -10,7 +10,7 @@ const htmlCache = new Map()
 const store = new Store()
 const defaultDownloadDir = os.homedir() + '/LSD'
 
-// context menu, ref: http://electron.atom.io/docs/api/menu/#render-process
+// context menu
 let webContents = getCurrentWebContents ()
 const contextMenu = new Menu ()
 const menuItem = new MenuItem({
@@ -41,7 +41,7 @@ function getCoverDir() {
   return dir
 }
 
-function deleteStickers() {
+function deleteAllStickers() {
   const path = store.get('downloadDir', defaultDownloadDir)
 	window.funcs.deleteFolder(path)
 }
