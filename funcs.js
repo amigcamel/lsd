@@ -25,8 +25,11 @@ async function extractStickerPage (id) {
   try {
     const response = await got(url, {headers: headers})
     const $ = cheerio.load(response.body)
-    $('.FnPreview').each(function(i, elem) {
-      urls.push(/url\((.+\.png)/g.exec($(this).attr('style'))[1])
+    $('.FnStickerPreviewItem').each(function(i, elem) {
+      let data = JSON.parse($(this).attr('data-preview'))
+      let url = data.animationUrl || data.staticUrl
+      urls.push(url)
+      console.log(url)
     })
     return urls
   } catch (error) {
@@ -39,7 +42,12 @@ async function downloadImage (id, dir, cover = false) {
   if (cover) {
     url = `https://stickershop.line-scdn.net/stickershop/v1/product/${id}/LINEStorePC/thumbnail_shop.png`
   } else {
-    url = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${id}/android/sticker.png`
+    if (id.startsWith('http')) {
+      url = id  // TODO: should change `id` to another name
+      id = /\/(\d+)\//g.exec(url)[1]
+    } else {
+      url = `https://stickershop.line-scdn.net/stickershop/v1/sticker/${id}/android/sticker.png`
+    }
   }
   try {
     const response = await got(url, {headers: headers, encoding: 'binary'})

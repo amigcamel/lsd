@@ -168,7 +168,8 @@ function downloadStickers() {
   global._downloaded = 0
   document.getElementById('download-progress').style.width = '0%'
   global.urls.forEach((url) => {
-    window.funcs.downloadImage(/\/(\d+)\//g.exec(url)[1], dir)
+    console.log(url)
+    window.funcs.downloadImage(url, dir)
   })
   showDownloadProgress()
 }
