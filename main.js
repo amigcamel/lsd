@@ -42,7 +42,7 @@ app.on('activate', function () {
 ipcMain.on('ondragstart', (event, filePath) => {
   event.sender.startDrag({
     file: filePath,
-    icon: filePath 
+    icon: filePath.replace('gif', 'png')
   })
 })
 

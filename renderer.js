@@ -73,7 +73,9 @@ function displayStickers(src) {
     document.querySelectorAll('#sub-collections-content img').forEach(function(event) {
       event.ondragstart = (event) => {
         event.preventDefault()
-        ipcRenderer.send('ondragstart', event.target.getAttribute('src'))  // native file drag, ref: https://www.electronjs.org/docs/tutorial/native-file-drag-drop
+        const src = event.target.getAttribute('src')
+        const target = funcs.apng2gif(src)
+        ipcRenderer.send('ondragstart', target)  // native file drag, ref: https://www.electronjs.org/docs/tutorial/native-file-drag-drop
       } 
     })
   }, 100)  // XXX: bad practice

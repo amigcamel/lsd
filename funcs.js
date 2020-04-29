@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const {spawnSync} = require('child_process')
 
 const cheerio = require('cheerio')
 const got = require('got')
@@ -117,6 +118,15 @@ function deleteFile(path) {
   })
 }
 
+
+function apng2gif(path) {
+  const target = path.replace('.png', '.gif')
+  if (!fs.existsSync(target)) {
+    spawnSync('./apng2gif', [path, target])
+  }
+  return target
+}
+
 exports.req = req
 exports.extractStickerPage = extractStickerPage
 exports.downloadImage = downloadImage
@@ -124,3 +134,4 @@ exports.getRandomPopular = getRandomPopular
 exports.recFindByExt = recFindByExt
 exports.deleteFile = deleteFile
 exports.deleteFolder = deleteFolder
+exports.apng2gif = apng2gif
