@@ -14,12 +14,15 @@
   "author": "amigcamel",
   "license": "",
   "devDependencies": {
-    "electron": "^8.0.3",
-    "electron-packager": "^14.2.1"
+    "electron-packager": "^14.2.1",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2"
   },
   "dependencies": {
     "admin-lte": "^3.0.2",
     "cheerio": "^1.0.0-rc.3",
+    "electron": "^8.2.4",
     "electron-installer-windows": "^3.0.0",
     "electron-store": "^5.1.1",
     "got": "^10.6.0",
