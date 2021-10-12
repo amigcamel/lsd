@@ -12,7 +12,7 @@
   "author": "amigcamel",
   "license": "",
   "devDependencies": {
-    "electron": "^8.0.3"
+    "electron": "^11.5.0"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
